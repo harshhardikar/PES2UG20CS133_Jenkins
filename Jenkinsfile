@@ -1,37 +1,28 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:14'
-    }
-  }
+  agent any
   stages {
-    stage('Clone repository') {
+    stage('Build') {
       steps {
-        git branch: 'main',
-          url: 'https://github.com/harshhardikar/PES2UG20CS133_Jenkins.git'
+        sh 'g++ -o PES2UG20CS170-1 abc.cpp'
+        echo 'Building stage Successful'
       }
     }
-    stage('Install dependencies') {
+    stage('Test') {
       steps {
-        sh 'npm run build'
+        sh './PES2UG20CS170-1'
+        echo 'Testing stage Successful'
       }
     }
-    stage('Test application') {
+    stage('Deploy') {
       steps {
-        sh 'npm test'
+        echo 'Deploying stage Successful'
       }
     }
-    stage('Push Docker image') {
-      steps {
-        sh 'docker build -t jenkins:PES2UG20CS133 .'
-        sh 'docker push docker run -p 8080:8080 -p 50000:50000 -it jenkins:PES2UG20CS133'
-      }
-    }
-  }
-  '''post {
+}
+  post {
     failure {
       echo 'Pipeline failed'
     }
-  }'''
+  }
 }
     
