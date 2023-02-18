@@ -28,10 +28,10 @@ pipeline {
       }
     }
   }
-  post {
+  '''post {
     failure {
       echo 'Pipeline failed'
     }
-  }
+  }'''
 }
     
